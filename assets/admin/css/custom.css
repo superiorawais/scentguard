@@ -1,0 +1,120 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 1, 2016, 2:59:08 PM
+    Author     : gggg
+*/
+
+.tab-content
+{
+    min-height: 900px !important;
+
+}
+.error
+{
+    color:red;
+}
+
+.active-bg
+{
+    background-color: lightgreen !important;
+}
+.inactive-bg
+{
+    background-color: linen !important;
+}
+.navbar-header
+{
+    background-color: #F1F4F5 !important;
+}
+.navbar-brand-text{
+    color: #97C03F !important;
+}
+
+.note-group-select-from-files {
+    display: none !important;
+}
+#errorDiv
+{
+    display:none;
+}
+#errorDivDescrip
+{
+    display:none;
+}
+#errorDivDescrip2
+{
+    display:none;
+}
+.modal-body img
+{
+    width: auto;
+    max-width: 100%;
+}
+
+.page-login:after {
+    background-color: #FEF9EF  !important;
+
+}
+
+.bg-sea-green{
+    background-color: #17C3B2 !important;
+    }
+    .bg-orange{
+    background-color: #fd5200 !important;
+    border-color:none !important;
+    }
+    
+    .txt-orange{
+       color: #fd5200 !important;
+        
+        }
+    
+    .bg-light-orange{
+        background-color: #ffcb77  !important;
+        border-color: #ffcb77  !important;
+    }
+
+
+
+    .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+        background-color: #ffcb77  !important;
+        border-color: #ffcb77  !important;
+    }
+
+    .site-menubar {
+       
+        color: #ffcb77  !important;
+        background: #FEF9EF  !important;
+    }
+
+    .site-menu-item a {
+        display: block;
+        color: #6e6e6e !important;
+    }
+
+    
+    .bg-offwhite{
+        background-color: #FEF9EF  !important;
+    }
+
+    .navbar-brand {
+        padding: 2px 8px !important;
+        /* font-weight: 500; */
+    }
+
+    .navbar-brand-logo {
+        height: 64px !important;
+       margin-top: 0px !important; 
+    }
+
+    
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #fff;
+    background-color: #AD916F !important;
+    border-color: transparent;
+    border-bottom-color: #AD916F !important;
+}

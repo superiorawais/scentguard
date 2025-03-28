@@ -1,0 +1,1 @@
+[10-Jun-2017 01:18:38 America/Denver] PHP Fatal error:  Call to undefined function isWebUserLogin() in /home2/techvist/public_html/demo/whatsad/application/controllers/user/User.php on line 28
