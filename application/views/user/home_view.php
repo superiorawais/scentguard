@@ -68,9 +68,11 @@
         </div>
 
       </section>
-
       <script>
-$(document).ready(function() {
+
+      $(document).ready(function() {
+
+        var imgBaseUrl="<?=base_url('/uploads/perfume/')?>";
     $("#searchBox").on("keyup", function() {
         let query = $(this).val().trim();
         if (query.length < 2) return;
@@ -91,17 +93,17 @@ $(document).ready(function() {
                 perfumes.forEach(function(perfume) {
                     let cardHtml = `
                         <div class="col-lg-4 mb-3">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">${perfume.Name}</h5>
-            <p><strong>Ingredients:</strong> ${perfume.Ingredients || "N/A"}</p>
-            <p><strong>Risks:</strong> ${perfume.DiseaseRisks || "None"}</p>
-            <p><strong>Alternative:</strong> ${perfume.AlternativeNames || "No alternative available"}</p>
-            <a href="perfume/details/${perfume.PerfumeID}" class="btn btn-primary bg-darkbrown mt-2">View Details</a>
-        </div>
-    </div>
-</div>
-
+                            <div class="card">
+                                <img src="${imgBaseUrl+'/'+perfume.Image}" class="card-img-top" alt="${perfume.Name}"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">${perfume.Name}</h5>
+                                    <p><strong>Ingredients:</strong> ${perfume.Ingredients || "N/A"}</p>
+                                    <p><strong>Risks:</strong> ${perfume.DiseaseRisks || "None"}</p>
+                                    <p><strong>Alternative:</strong> ${perfume.AlternativeNames || "No alternative available"}</p>
+                                    <a href="perfume/details/${perfume.PerfumeID}" class="btn btn-primary bg-darkbrown mt-2">View Details</a>
+                                </div>
+                            </div>
+                        </div>
                     `;
                     $("#searchResults").append(cardHtml);
                 });

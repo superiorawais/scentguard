@@ -97,7 +97,7 @@
         <div class="mb-3 bg-offwhite">
           <div class="card-body">
             <a href="<?= base_url() ?>" class="img d-flex align-items-center w-auto">
-              <img src="<?= base_url('assets/user/img/logo.png') ?>" alt="">
+              <img src="<?= base_url('assets/user/img/logo-transparent.png') ?>" alt="">
             </a>
           </div>
         </div>

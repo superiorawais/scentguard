@@ -57,7 +57,7 @@
 
             <!-- <i class="bi bi-list toggle-sidebar-btn d-flex align-items-center"></i> -->
             <a href="<?= base_url() ?>" class="logo ">
-                <img src="<?= base_url('assets/user/img/logo.png') ?>" alt="">
+                <img src="<?= base_url('assets/user/img/logo-transparent.png') ?>" alt="">
                 <!-- <span class="d-none d-lg-block">NiceAdmin</span> -->
             </a>
         </div><!-- End Logo -->

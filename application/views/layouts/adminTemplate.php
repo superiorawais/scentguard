@@ -84,7 +84,7 @@
             </button>
             <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="" style="cursor: default;">
             <!-- <span> Child Bank</span>    -->
-            <img class="navbar-brand-logo" src="<?= base_url('assets/user/img/logo.png'); ?>" height="64px" title="childbank">
+            <img class="navbar-brand-logo" src="<?= base_url('assets/user/img/logo-transparent.png'); ?>" height="64px" title="childbank">
             </div>
         </div>
 

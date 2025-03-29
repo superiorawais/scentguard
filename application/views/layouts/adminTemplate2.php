@@ -44,7 +44,7 @@
          data-animsition-out="fade-out">>
         <div class="page-content vertical-align-middle">
             <div class="brand">
-                <img class="brand-img" src="<?= base_url('assets/user/img/logo.png'); ?>" height="150px"  alt="...">
+                <img class="brand-img" src="<?= base_url('assets/user/img/logo-transparent.png'); ?>" height="150px"  alt="...">
                 <!-- <h2 class="brand-text">Childbank</h2> -->
             </div>
             <?= $template['body']; ?>
