@@ -62,6 +62,18 @@
                 <div class="invalid-feedback">Please enter your password!</div>
               </div>
 
+
+
+
+              <div class="col-12">
+                    <label class="col-sm-3 control-label">Risks/Diseases :</label>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="risks[]" id="risks" multiple>
+                        </select>
+                    </div>
+                </div>
+
+
               <!-- <div class="col-12">
                 <label for="yourPassword" class="form-label">Email</label>
                 <input type="email" name="email" class="form-control">
@@ -114,7 +126,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
 
-
+    loadDropdownData("#signup");
 
 
   });
@@ -214,7 +226,11 @@
 
       // submit using ajax
       var url = "<?php echo base_url('user/User/signUp'); ?>";
+
+      var risks = $('select[name="risks[]"]').val() || [];
       var formData = new FormData($("#signup")[0]);
+      formData.append('risks', JSON.stringify(risks));
+
       $.ajax({
         url: url,
         type: "POST",
@@ -257,6 +273,34 @@
     }
 
   }
+
+
+  function loadDropdownData(container) {
+        // console.log(container +  " #ingredients");
+        $.ajax({
+            url: "<?= base_url('admin/Perfume/getDropdownData'); ?>",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+               // populateDropdown(container + " #ingredients", response.ingredients);
+                populateDropdown(container + " #risks", response.risks);
+                //populateDropdown(container + " #alternatives", response.alternatives);
+            },
+            error: function() {
+                alert("Failed to fetch dropdown data.");
+            }
+        });
+    }
+
+    function populateDropdown(selector, data) {
+        $(selector).empty();
+        $.each(data, function(index, item) {
+            $(selector).append(new Option(item.name, item.id));
+        });
+    }
+
+
+
 
   $('#signup input').keypress(function(event) {
     if (event.keyCode === 13) {

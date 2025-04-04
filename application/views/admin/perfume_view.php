@@ -471,9 +471,9 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-                populateDropdown(container + " #ingredients", response.ingredients);
+                //populateDropdown(container + " #ingredients", response.ingredients);
                 populateDropdown(container + " #risks", response.risks);
-                populateDropdown(container + " #alternatives", response.alternatives);
+              //  populateDropdown(container + " #alternatives", response.alternatives);
             },
             error: function() {
                 alert("Failed to fetch dropdown data.");

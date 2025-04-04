@@ -1,11 +1,80 @@
 <div class="container mt-4">
 <div class="row">
-    <div class="col-6">
-    <h2><?= $perfume['Name'] ?></h2>
-    <p><strong>Ingredients:</strong> <?= $perfume['Ingredients'] ?: 'N/A' ?></p>
-    <p><strong>Risks:</strong> <?= $perfume['DiseaseRisks'] ?: 'None' ?></p>
-    <p><strong>Alternative:</strong> <?= $perfume['AlternativeNames'] ?: 'No alternative available' ?></p>
+<div class="row">
+    <!-- Perfume Image -->
+    <div class="col-md-6">
+        <img src="<?= base_url('uploads/perfume/' . $perfume['Image']) ?>" 
+             alt="<?= htmlspecialchars($perfume['Name']) ?>" 
+             class="img-fluid rounded">
     </div>
+    
+    <!-- Perfume Details -->
+    <div class="col-md-6">
+        <h2><?= htmlspecialchars($perfume['Name']) ?></h2>
+        
+        <div class="mb-3">
+            <h5>Ingredients</h5>
+            <p><?= $perfume['Ingredients'] ?: 'N/A' ?></p>
+        </div>
+        
+        <div class="mb-3">
+            <h5>All Risks</h5>
+            <p><?= $perfume['DiseaseRisks'] ?: 'None' ?></p>
+        </div>
+        
+        <!-- Only show personalized analysis if user has risks -->
+        <?php if (!empty($this->session->userdata('user_risks'))) { ?>
+            <div class="risk-analysis mb-3 p-3 bg-light rounded">
+                <h5>Your Personal Risk Analysis</h5>
+                
+                <!-- Danger Risks -->
+                <?php if (!empty($perfume['DangerRisks'])): ?>
+                    <div class="danger-risks mb-2">
+                        <h6>Risks That Affect You:</h6>
+                        <?php foreach ($perfume['DangerRisks'] as $risk): ?>
+                            <span class="badge bg-danger text-white me-1 mb-1"><?= htmlspecialchars($risk) ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Safe Risks -->
+                <?php if (!empty($perfume['SafeRisks'])): ?>
+                    <div class="safe-risks mb-2">
+                        <h6>Other Identified Risks:</h6>
+                        <?php foreach ($perfume['SafeRisks'] as $risk): ?>
+                            <span class="badge bg-success text-white me-1 mb-1"><?= htmlspecialchars($risk) ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Safety Rating -->
+                <div class="safety-rating mt-3">
+                    <h6>Safety Rating:</h6>
+                    <div class="progress mb-2" style="height: 25px;">
+                        <div class="progress-bar safe-bg" 
+                             role="progressbar" 
+                             style="width: <?= $perfume['SafePercentage'] ?>%">
+                            <?= $perfume['SafePercentage'] ?>% Safe
+                        </div>
+                        <div class="progress-bar danger-bg" 
+                             role="progressbar" 
+                             style="width: <?= $perfume['DangerPercentage'] ?>%">
+                            <?= $perfume['DangerPercentage'] ?>% Risk
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        
+        <!-- Alternatives -->
+        <div class="mb-3">
+            <h5>Alternatives</h5>
+            <p><?= $perfume['AlternativeNames'] ?: 'No alternatives available' ?></p>
+        </div>
+    </div>
+</div>
+
+
     <div class="col-6">
     <!-- Overall Rating Section -->
     <h3>Overall Rating</h3>
@@ -38,6 +107,7 @@
 
 
 <script>
+    
 $(document).ready(function () {
     let perfumeID = <?=$perfume['PerfumeID']?>;
     let isLoggedIn = <?= isset($_SESSION['userId']) ? 'true' : 'false' ?>; // Check login status

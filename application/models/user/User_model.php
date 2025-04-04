@@ -14,13 +14,23 @@ class User_model extends CI_Model
         if ($query->num_rows() > 0) {
             return array("message" => "Email Already Exists.", "status" => "0");
         }
+
+
+// Decode risks JSON to array
+$risks = isset($data['risks']) ? json_decode($data['risks'], true) : [];
+
+// Convert array to comma-separated string
+$risksString = is_array($risks) ? implode(',', $risks) : '';
+
+
         $data = array(
             'firstName' => ucfirst($data['firstName']),
             'lastName' => ucfirst($data['lastName']),
             'email' => $data['email'],
             'pass' => md5($data['pass']),
             'dob' => $data['dob'],
-            'gender'=>$data['gender']
+            'gender'=>$data['gender'],
+            'risks' => $risksString // Storing risks as comma-separated values
           
         );
 
@@ -94,6 +104,8 @@ class User_model extends CI_Model
             $this->session->set_userdata('lastName', $result['lastName']);
             $this->session->set_userdata('pass', $result['pass']);
             $this->session->set_userdata('gender', $result['gender']);
+            $this->session->set_userdata('user_risks', explode(',', $result['risks']));
+           
             return array("message" => 'Successfully Logged in.', "status" => '1');
         } else {
             return array("message" => 'Login Failed! Id or Password Invalid.', "status" => '0');
@@ -105,11 +117,21 @@ class User_model extends CI_Model
     {
         $userId = $this->session->userdata('userId');
 
+
+// Decode risks JSON to array
+$risks = isset($data['risks']) ? json_decode($data['risks'], true) : [];
+
+// Convert array to comma-separated string
+$risksString = is_array($risks) ? implode(',', $risks) : '';
+
+
         // Prepare the data to be updated
         $updateData = array(
             'firstName' => $data['firstName'],
             'lastName' => $data['lastName'],
             'dob' => $data['dob'],
+            'gender'=>$data['gender'],
+            'risks' => $risksString 
             // 'email' => $data['email'],
                
         );

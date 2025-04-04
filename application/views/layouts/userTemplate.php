@@ -71,39 +71,31 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?=base_url()?>">Home</a>
-                    </li>
-                    <?php if(isset($_SESSION['userId'])): ?>
-                        <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#updateProfileModal" onclick="getLoggedInUser()">
-                                <i class=""></i>
-                                <span>Profile</span>
-                            </a>
-                            </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('logout') ?>">Logout</a>
+        <a class="nav-link active" aria-current="page" href="<?=base_url()?>">Home</a>
     </li>
-    <li class="nav-item profileName">
-    <span class="profileName">
-        <?= isset($_SESSION['firstName']) && isset($_SESSION['lastName']) 
-            ? $_SESSION['firstName'] . ' ' . $_SESSION['lastName'] 
-            : 'Guest' ?>
-    </span>
-</li>
-
-
-<?php else: ?>
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('login') ?>">Login</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('signup') ?>">Register</a>
-    </li>
-<?php endif; ?>
-
-             
-                </ul>
+    <?php if(isset($_SESSION['userId'])): ?>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <?= isset($_SESSION['firstName']) && isset($_SESSION['lastName']) 
+                    ? htmlspecialchars($_SESSION['firstName'] . ' ' . $_SESSION['lastName']) 
+                    : 'Guest' ?>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal" onclick="getLoggedInUser()">My Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="<?= base_url('logout') ?>">Logout</a></li>
+            </ul>
+        </li>
+    <?php else: ?>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('login') ?>">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('signup') ?>">Register</a>
+        </li>
+    <?php endif; ?>
+</ul>
                 </div>
             </div>
         </nav>
@@ -247,7 +239,7 @@
 
                         <div class="col-12">
                 <label for="yourUsername" class="form-label">Gender*</label>
-                <select name="gender" class="form-control">
+                <select name="gender" id="gender" class="form-control">
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Transgender">Transgender</option>
@@ -274,6 +266,14 @@
                             <span class="txt-gray"> Age should be greater than 18 years.</span>
                             <div class="invalid-feedback">Please enter your password!</div>
                         </div>
+
+                        <div class="col-12">
+                    <label class="col-sm-3 control-label">Risks/Diseases :</label>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="risks[]" id="risks" multiple>
+                        </select>
+                    </div>
+                </div>
 
 
                         <!-- <div class="col-12">
@@ -321,11 +321,18 @@
 
     function getLoggedInUser() {
 
+
+        loadDropdownData("#updateProfile");
+
         var url = "<?php echo base_url('user/User/getLoggedInUser'); ?>";
         $.ajax({
             url: url,
             type: "POST",
             success: function(response) {
+
+               
+
+
                 try {
                     response = JSON.parse(response);
                     $('#updateProfile #id').val(response['id']);
@@ -336,7 +343,24 @@
                     $('#updateProfile #email').val(response['email']);
                     // $('#updateProfile #email').val(response['email']);
 
-                } catch (e) {
+
+
+
+// Force conversion to array (safest way)
+let risks = String(response['risks'] || "").split(',').map(r => r.trim());
+
+
+
+setTimeout(() => {
+    const risksToSelect = Array.isArray(risks) 
+        ?risks.map(String) 
+        : String(risks || "").split(',').map(r => r.trim());
+    
+    $("#updateProfile #risks").val(risksToSelect).trigger('change');
+    console.log("Selected values:", $("#updateProfile #risks").val());
+}, 100); // Small delay to ensure DOM updates
+
+             } catch (e) {
                     alert(e);
                 }
             },
@@ -345,6 +369,35 @@
             }
         });
     }
+
+
+
+    function loadDropdownData(container) {
+        // console.log(container +  " #ingredients");
+        $.ajax({
+            url: "<?= base_url('admin/Perfume/getDropdownData'); ?>",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+               // populateDropdown(container + " #ingredients", response.ingredients);
+                populateDropdown(container + " #risks", response.risks);
+                //populateDropdown(container + " #alternatives", response.alternatives);
+            },
+            error: function() {
+                alert("Failed to fetch dropdown data.");
+            }
+        });
+    }
+
+    function populateDropdown(selector, data) {
+        $(selector).empty();
+        $.each(data, function(index, item) {
+            $(selector).append(new Option(item.name, item.id));
+        });
+    }
+
+
+
 
     function updateProfile() {
 
@@ -421,7 +474,11 @@
 
             // submit using ajax
             var url = "<?php echo base_url('user/User/updateProfile'); ?>";
+
+            var risks = $('select[name="risks[]"]').val() || [];
+
             var formData = new FormData($("#updateProfile")[0]);
+            formData.append('risks', JSON.stringify(risks));
 
             $.ajax({
                 url: url,

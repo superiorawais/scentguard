@@ -82,32 +82,78 @@
             type: "GET",
             data: { query: query },
             success: function(response) {
-                let perfumes = JSON.parse(response);
-                $("#searchResults").empty();
-                
-                if (perfumes.length === 0) {
-                    $("#searchResults").append("<h1 class='text-center'>No results found.</h1>");
-                    return;
-                }
+    let perfumes = JSON.parse(response);
+    $("#searchResults").empty();
+    
+    if (perfumes.length === 0) {
+        $("#searchResults").append("<h1 class='text-center'>No results found.</h1>");
+        return;
+    }
 
-                perfumes.forEach(function(perfume) {
-                    let cardHtml = `
-                        <div class="col-lg-4 mb-3">
-                            <div class="card">
-                                <img src="${imgBaseUrl+'/'+perfume.Image}" class="card-img-top" alt="${perfume.Name}"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">${perfume.Name}</h5>
-                                    <p><strong>Ingredients:</strong> ${perfume.Ingredients || "N/A"}</p>
-                                    <p><strong>Risks:</strong> ${perfume.DiseaseRisks || "None"}</p>
-                                    <p><strong>Alternative:</strong> ${perfume.AlternativeNames || "No alternative available"}</p>
-                                    <a href="perfume/details/${perfume.PerfumeID}" class="btn btn-primary bg-darkbrown mt-2">View Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    $("#searchResults").append(cardHtml);
+    perfumes.forEach(function(perfume) {
+        // Only create these elements if user has risks
+        const riskContent = perfume.hasUserRisks ? `
+            <div class="risk-section">
+                ${perfume.DangerRisks && perfume.DangerRisks.length > 0 ? `
+                    <div class="danger-risks">
+                        <strong>Potential Risks:</strong>
+                        ${perfume.DangerRisks.map(risk => 
+                            `<span class="badge bg-danger text-white me-1 mb-1">${risk}</span>`
+                        ).join('')}
+                    </div>
+                ` : ''}
+                
+                <div class="mt-2">
+                    <strong>Safety Rating:</strong>
+                    <span class="text-success">${perfume.SafePercentage}% Safe</span>
+                </div>
+                
+                <div style="width:250px">
+                    <canvas id="chart-${perfume.PerfumeID}" width="150" height="150"></canvas>
+                </div>
+            </div>
+        ` : ''; // Empty string if no user risks
+
+        let cardHtml = `
+            <div class="col-lg-4 mb-3">
+                <div class="card">
+                    <img src="${imgBaseUrl+'/'+perfume.Image}" class="card-img-top" alt="${perfume.Name}"/>
+                    <div class="card-body">
+                        <h5 class="card-title">${perfume.Name}</h5>
+                        <p><strong>Ingredients:</strong> ${perfume.Ingredients || "N/A"}</p>
+                        <p><strong>All Risks:</strong> ${perfume.DiseaseRisks || "None"}</p>
+                        
+                        ${riskContent}
+                        
+                        <p><strong>Alternative:</strong> ${perfume.AlternativeNames || "None"}</p>
+                        <a href="perfume/details/${perfume.PerfumeID}" class="btn bg-darkbrown mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        $("#searchResults").append(cardHtml);
+
+        // Only create chart if user has risks
+        if (perfume.hasUserRisks) {
+            setTimeout(() => {
+                const ctx = document.getElementById(`chart-${perfume.PerfumeID}`).getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Safe', 'Risky'],
+                        datasets: [{
+                            data: [perfume.SafePercentage, perfume.DangerPercentage],
+                            backgroundColor: ['#A2EDA7', '#FFC3CE']
+                        }]
+                    }
                 });
-            },
+            }, 100);
+        }
+    });
+}
+,
+          
             error: function() {
                 $("#searchResults").html("<p class='text-danger'>Error fetching results.</p>");
             }

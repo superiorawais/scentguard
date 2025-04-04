@@ -23,6 +23,19 @@ background-color: #fd5200 !important;
     color: white !important;
 }
 
+.danger-bg
+{
+    background-color: #FFC3CE;
+    color:red;
+}
+
+.safe-bg
+{
+    background-color: #A2EDA7;
+    color:green;
+
+}
+
 .profileName
 {
     display: inline !important;
