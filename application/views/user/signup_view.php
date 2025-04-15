@@ -1,10 +1,10 @@
 <!-- Login Section -->
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
   <div class="container">
-    <div class="row justify-content-center bg-offwhite">
+    <div class="row justify-content-center">
       <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-        <div class="card mb-3 bg-offwhite">
+        <div class="card mb-3">
 
           <div class="card-body">
 
@@ -34,13 +34,17 @@
               </div>
 
               <div class="col-12">
-                <label for="yourUsername" class="form-label">Gender*</label>
-                <select name="gender" class="form-control">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Transgender">Transgender</option>
-                </select>
-              </div>
+  <label class="form-label d-block">Gender*</label>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" required checked>
+    <label class="form-check-label" for="genderMale">Male</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
+    <label class="form-check-label" for="genderFemale">Female</label>
+  </div>
+</div>
+
 
               <div class="col-12">
                 <label for="yourPassword" class="form-label">Password*</label>
@@ -106,7 +110,7 @@
 
       <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-        <div class="mb-3 bg-offwhite">
+        <div class="mb-3>
           <div class="card-body">
             <a href="<?= base_url() ?>" class="img d-flex align-items-center w-auto">
               <img src="<?= base_url('assets/user/img/logo-transparent.png') ?>" alt="">

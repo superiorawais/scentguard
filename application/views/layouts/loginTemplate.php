@@ -36,7 +36,8 @@
 
 </head>
 
-<body>
+
+<body style="background-image: url('<?=base_url('/assets/user/img/bg.png')?>') !important;">
 
   <main>
     <div class="container log-temp">

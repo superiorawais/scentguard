@@ -1,11 +1,21 @@
-<section class="container-fluid bg-white">
-  <div class="row align-items-center">
-    <div class="col-9">
+<section class="container-fluid">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-12">
+      <h1 class="text-center txt-darkbrown">Choose Perfume Safely</h1>
+      <p class="text-center txt-darkbrown">Discover fragrances suited for you by comparing <br> perfume ingredients to personal risk factors.</p>
+    </div>
+    <div class="col-6">
+      <div class="input-group input-group-lg">
+        <input type="text" class="form-control"  placeholder="Ingredients,Risks,Perfume Name" id="searchBox" aria-label="Search" aria-describedby="searchText">
+        <span class="input-group-text bg-darkbrown" id="searchText">Search</span>
+      </div>
+    </div>
+    <!-- <div class="col-9">
       <input type="text" class="form-control" id="searchBox" placeholder="Search for perfumes..."/>
     </div>
     <div class="col-3">
     <input type="button" class="form-control bg-darkbrown" value="Search" />
-    </div>
+    </div> -->
   </div>
 
 </section>

@@ -1,10 +1,10 @@
 <!-- Login Section -->
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center" style="margin-top: 0px !important;">
         <div class="container">
-          <div class="row justify-content-center bg-offwhite">
+          <div class="row justify-content-center">
             <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-              <div class="card mb-3 bg-offwhite">
+              <div class="card mb-3">
 
                 <div class="card-body">
 
@@ -52,7 +52,7 @@
 
 <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-              <div class="mb-3 bg-offwhite">
+              <div class="mb-3">
                 <div class="card-body">
                 <a href="<?=base_url()?>" class="img d-flex align-items-center w-auto">
                   <img src="<?=base_url('assets/user/img/logo-transparent.png')?>" alt="">

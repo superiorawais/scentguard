@@ -272,26 +272,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $("#add #userType").on("change", function() {
-    if ($(this).val() === "child") {
-        $("#add #divShippingAddress").show()
-    } else {
-        $("#add #divShippingAddress").hide();
-    }
-});
-
-
-
-$("#edit #userType").on("change", function() {
-    if ($(this).val() === "child") {
-        $("#edit #divShippingAddress").show()
-    } else {
-        $("#edit #divShippingAddress").hide();
-    }
-});
-
-
-
         getUsers();
     });
 
@@ -353,18 +333,6 @@ $("#edit #userType").on("change", function() {
                     required: true,
                     email:true
                 }
-                // ,
-                // email: {
-                //     required: true,
-                //     email:true
-                // },
-
-                // ,
-                // shippingAddress: {
-                //     required: function() {
-                //         return $("select[name='userType']").val() === "child";
-                //     }
-                // }
 
 
             },
@@ -447,8 +415,6 @@ $("#edit #userType").on("change", function() {
                             value.lastName,
                             value.email,
                             value.dob,
-                            // value.email,
-                            //value.shippingAddress,
                             value.gender,
                             value.createdDateTime,
                             "<td><input type='checkbox' data-id='" + value.id + "' id='" + value.id + "'  " + check + " onclick='userStatus(this)'>| " + stat + "</td>",
@@ -634,19 +600,6 @@ $("#edit #userType").on("change", function() {
                     required: true,
                    email:true
                 }
-                // ,
-                // email: {
-                //     required: true,
-                //     email:true
-                // },
-
-                // ,
-                // shippingAddress: {
-                //     required: function() {
-                //         return $("select[name='userType']").val() === "child";
-                //     }
-                // }
-
             },
             messages: {
                 confirmPass: "Password didn't match.",

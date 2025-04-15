@@ -47,11 +47,12 @@
 
 </head>
 
-<body>
+
+<body style="background-image: url('<?=base_url('/assets/user/img/bg.png')?>') !important;">
 
 
     <!-- ======= Header ======= -->
-    <header id="header" class="header container fixed-top d-flex align-items-center justify-content-between bg-offwhite">
+    <header id="header" class="header container fixed-top d-flex align-items-center justify-content-between">
 
         <div class="d-flex align-items-center justify-content-between">
 
@@ -237,14 +238,19 @@
                             <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                         </div>
 
-                        <div class="col-12">
-                <label for="yourUsername" class="form-label">Gender*</label>
-                <select name="gender" id="gender" class="form-control">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Transgender">Transgender</option>
-                </select>
-              </div>
+             
+
+              <div class="col-12">
+  <label class="form-label d-block">Gender*</label>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="gender" id="gender" value="Male">
+    <label class="form-check-label" for="genderMale">Male</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="gender" id="gender" value="Female">
+    <label class="form-check-label" for="genderFemale">Female</label>
+  </div>
+</div>
 
 
                         <div class="col-12">
@@ -336,7 +342,7 @@
                 try {
                     response = JSON.parse(response);
                     $('#updateProfile #id').val(response['id']);
-                    $('#updateProfile #gender').val(response['gender']);
+                    $('#updateProfile input[name="gender"][value="' + response['gender'] + '"]').prop('checked', true);
                     $('#updateProfile #firstName').val(response['firstName']);
                     $('#updateProfile #lastName').val(response['lastName']);
                     $('#updateProfile #dob').val(response['dob']);
@@ -448,6 +454,11 @@ setTimeout(() => {
                 email: {
                     required:true,
                     email:true
+                }
+                ,
+                gender: {
+                    required:true
+                    
                 }
                 // ,
                 // email: {
