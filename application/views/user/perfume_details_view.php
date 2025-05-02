@@ -10,68 +10,70 @@
     
     <!-- Perfume Details -->
     <div class="col-md-6">
-        <h2><?= htmlspecialchars($perfume['Name']) ?></h2>
-        
-        <div class="mb-3">
-            <h5>Ingredients</h5>
-            <p><?= $perfume['Ingredients'] ?: 'N/A' ?></p>
-        </div>
-        
-        <div class="mb-3">
-            <h5>All Risks</h5>
-            <p><?= $perfume['DiseaseRisks'] ?: 'None' ?></p>
-        </div>
-        
-        <!-- Only show personalized analysis if user has risks -->
-        <?php if (!empty($this->session->userdata('user_risks'))) { ?>
-            <div class="risk-analysis mb-3 p-3 bg-light rounded">
-                <h5>Your Personal Risk Analysis</h5>
-                
-                <!-- Danger Risks -->
-                <?php if (!empty($perfume['DangerRisks'])): ?>
-                    <div class="danger-risks mb-2">
-                        <h6>Risks That Affect You:</h6>
-                        <?php foreach ($perfume['DangerRisks'] as $risk): ?>
-                            <span class="badge bg-danger text-white me-1 mb-1"><?= htmlspecialchars($risk) ?></span>
-                        <?php endforeach; ?>
+    <h2><?= htmlspecialchars($perfume['Name']) ?></h2>
+    
+    <div class="mb-3">
+        <h5>Components</h5>
+        <p><?= $perfume['Ingredients'] ?: 'N/A' ?></p>
+    </div>
+    
+    <div class="mb-3">
+        <h5>All Risks</h5>
+        <p><?= $perfume['DiseaseRisks'] ?: 'None' ?></p>
+    </div>
+    
+    <!-- Only show personalized analysis if user has risks -->
+    <?php if (!empty($this->session->userdata('user_risks'))) { ?>
+        <div class="risk-analysis mb-3 p-3 bg-light rounded">
+            <h5>Your Personal Risk Analysis</h5>
+            
+            <!-- Danger Risks -->
+            <?php if (!empty($perfume['DangerRisks'])): ?>
+                <div class="danger-risks mb-2">
+                    <h6>Risks That Affect You:</h6>
+                    <?php foreach ($perfume['DangerRisks'] as $risk): ?>
+                        <span class="badge bg-danger text-white me-1 mb-1"><?= htmlspecialchars($risk) ?></span>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Safe Risks -->
+            <?php if (!empty($perfume['SafeRisks'])): ?>
+                <div class="safe-risks mb-2">
+                    <h6>Other Identified Risks:</h6>
+                    <?php foreach ($perfume['SafeRisks'] as $risk): ?>
+                        <span class="badge bg-success text-white me-1 mb-1"><?= htmlspecialchars($risk) ?></span>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Safety Rating -->
+            <div class="safety-rating mt-3">
+                <h6>Safety Rating:</h6>
+                <div class="progress mb-2" style="height: 25px;">
+                    <div class="progress-bar safe-bg" 
+                         role="progressbar" 
+                         style="width: <?= $perfume['SafePercentage'] ?>%">
+                        <?= $perfume['SafePercentage'] ?>% Safe
                     </div>
-                <?php endif; ?>
-                
-                <!-- Safe Risks -->
-                <?php if (!empty($perfume['SafeRisks'])): ?>
-                    <div class="safe-risks mb-2">
-                        <h6>Other Identified Risks:</h6>
-                        <?php foreach ($perfume['SafeRisks'] as $risk): ?>
-                            <span class="badge bg-success text-white me-1 mb-1"><?= htmlspecialchars($risk) ?></span>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-                
-                <!-- Safety Rating -->
-                <div class="safety-rating mt-3">
-                    <h6>Safety Rating:</h6>
-                    <div class="progress mb-2" style="height: 25px;">
-                        <div class="progress-bar safe-bg" 
-                             role="progressbar" 
-                             style="width: <?= $perfume['SafePercentage'] ?>%">
-                            <?= $perfume['SafePercentage'] ?>% Safe
-                        </div>
-                        <div class="progress-bar danger-bg" 
-                             role="progressbar" 
-                             style="width: <?= $perfume['DangerPercentage'] ?>%">
-                            <?= $perfume['DangerPercentage'] ?>% Risk
-                        </div>
+                    <div class="progress-bar danger-bg" 
+                         role="progressbar" 
+                         style="width: <?= $perfume['DangerPercentage'] ?>%">
+                        <?= $perfume['DangerPercentage'] ?>% Risk
                     </div>
                 </div>
             </div>
-        <?php } ?>
-        
-        <!-- Alternatives -->
+        </div>
+    <?php } ?>
+    
+    <!-- Only show alternatives if NOT 100% safe -->
+    <?php if ($perfume['SafePercentage'] < 100): ?>
         <div class="mb-3">
             <h5>Alternatives</h5>
             <p><?= $perfume['AlternativeNames'] ?: 'No alternatives available' ?></p>
         </div>
-    </div>
+    <?php endif; ?>
+</div>
 </div>
 
 

@@ -115,6 +115,10 @@ margin-left: auto !important;
     z-index: 1000;
 }
 
+body {
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
 
 p.text-center.txt-darkbrown {
     line-height: 33px !important;
@@ -159,7 +163,7 @@ input[type="password"] {
 
 body {
  
-    background: #FEF9EF !important;
+    /* background: #FEF9EF !important; */
 }
 
 .dashboard .revenue-card .card-icon {

@@ -54,9 +54,9 @@
 
               <div class="mb-3">
                 <div class="card-body">
-                <a href="<?=base_url()?>" class="img d-flex align-items-center w-auto">
+                <!-- <a href="<?=base_url()?>" class="img d-flex align-items-center w-auto">
                   <img src="<?=base_url('assets/user/img/logo-transparent.png')?>" alt="">
-                </a>
+                </a> -->
                 </div>
               </div>
 

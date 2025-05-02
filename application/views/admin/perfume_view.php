@@ -50,7 +50,7 @@
     </div> -->
 
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">Ingredients <span class="required">*</span> :</label>
+                                            <label class="col-sm-3 control-label">Components <span class="required">*</span> :</label>
                                             <div class="col-sm-9">
                                                 <select class="form-control" name="ingredients[]" id="ingredients" multiple required>
 
@@ -112,7 +112,7 @@
                                         <tr>
                                             <th>Image</th>
                                             <th>Name</th>
-                                            <th>Ingredients</th>
+                                            <th>Components</th>
                                             <th>Risks</th>
                                             <th>Alternate</th>
                                             <!-- <th>Status</th> -->
@@ -315,6 +315,7 @@
 
                 if (response.status === "success") {
                     $('#add')[0].reset(); // Reset the form
+                    getPerfumes();
 
                     // Show success message
                     $('#notification').removeClass('alert-danger').addClass('alert-success');
@@ -471,9 +472,9 @@
             type: "GET",
             dataType: "json",
             success: function(response) {
-                //populateDropdown(container + " #ingredients", response.ingredients);
+                populateDropdown(container + " #ingredients", response.ingredients);
                 populateDropdown(container + " #risks", response.risks);
-              //  populateDropdown(container + " #alternatives", response.alternatives);
+             populateDropdown(container + " #alternatives", response.alternatives);
             },
             error: function() {
                 alert("Failed to fetch dropdown data.");

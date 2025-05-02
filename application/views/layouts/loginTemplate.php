@@ -39,6 +39,23 @@
 
 <body style="background-image: url('<?=base_url('/assets/user/img/bg.png')?>') !important;">
 
+<!-- ======= Header ======= -->
+<header id="header" class="header container fixed-top d-flex align-items-center justify-content-between" style="left: -100px !important;">
+
+<div class="d-flex align-items-center justify-content-between">
+
+    <!-- <i class="bi bi-list toggle-sidebar-btn d-flex align-items-center"></i> -->
+    <a href="<?= base_url() ?>" class="logo ">
+        <img src="<?= base_url('assets/user/img/logo-transparent.png') ?>" alt="">
+        <!-- <span class="d-none d-lg-block">NiceAdmin</span> -->
+    </a>
+</div><!-- End Logo -->
+
+</header><!-- End Header -->
+
+
+
+
   <main>
     <div class="container log-temp">
     <?= $template['body']; ?>
