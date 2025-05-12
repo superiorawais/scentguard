@@ -274,10 +274,10 @@
                         </div>
 
                         <div class="col-12">
-                    <label class="col-sm-3 control-label">Risks/Diseases :</label>
-                    <div class="col-sm-12">
-                        <select class="form-control" name="risks[]" id="risks" multiple>
-                        </select>
+                    <label class="col-sm-4 control-label">Risks/Diseases :</label>
+                    <div class="col-sm-12" id="risks">
+                        <!-- <select class="form-control" name="risks[]" id="risks" multiple>
+                        </select> -->
                     </div>
                 </div>
 
@@ -328,7 +328,7 @@
     function getLoggedInUser() {
 
 
-        loadDropdownData("#updateProfile");
+      
 
         var url = "<?php echo base_url('user/User/getLoggedInUser'); ?>";
         $.ajax({
@@ -352,10 +352,12 @@
 
 
 
-// Force conversion to array (safest way)
+// // Force conversion to array (safest way)
+// let risks = String(response['risks'] || "").split(',').map(r => r.trim());
+
 let risks = String(response['risks'] || "").split(',').map(r => r.trim());
 
-
+loadDropdownData("#updateProfile",risks);
 
 setTimeout(() => {
     const risksToSelect = Array.isArray(risks) 
@@ -378,29 +380,48 @@ setTimeout(() => {
 
 
 
-    function loadDropdownData(container) {
+    function loadDropdownData(container, selectedRisksCsv = "") {
         // console.log(container +  " #ingredients");
         $.ajax({
             url: "<?= base_url('admin/Perfume/getDropdownData'); ?>",
             type: "GET",
             dataType: "json",
             success: function(response) {
-               // populateDropdown(container + " #ingredients", response.ingredients);
-                populateDropdown(container + " #risks", response.risks);
-                //populateDropdown(container + " #alternatives", response.alternatives);
-            },
+            const selectedRisks = String(selectedRisksCsv || "")
+                .split(',')
+                .map(r => r.trim());
+
+            populateCheckboxes(container + " #risks", response.risks, selectedRisks);
+        },
             error: function() {
                 alert("Failed to fetch dropdown data.");
             }
         });
     }
 
-    function populateDropdown(selector, data) {
-        $(selector).empty();
-        $.each(data, function(index, item) {
-            $(selector).append(new Option(item.name, item.id));
-        });
-    }
+    // function populateDropdown(selector, data) {
+    //     $(selector).empty();
+    //     $.each(data, function(index, item) {
+    //         $(selector).append(new Option(item.name, item.id));
+    //     });
+    // }
+
+
+
+    function populateCheckboxes(selector, data, selectedRisks = []) {
+    $(selector).empty();
+    $.each(data, function(index, item) {
+        const isChecked = selectedRisks.includes(String(item.id)) ? "checked" : "";
+        const checkbox = `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="risks[]" value="${item.id}" id="risk_${item.id}" ${isChecked}>
+                <label class="form-check-label" for="risk_${item.id}">${item.name}</label>
+            </div>
+        `;
+        $(selector).append(checkbox);
+    });
+}
+
 
 
 
@@ -486,7 +507,10 @@ setTimeout(() => {
             // submit using ajax
             var url = "<?php echo base_url('user/User/updateProfile'); ?>";
 
-            var risks = $('select[name="risks[]"]').val() || [];
+            var risks = $('input[name="risks[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
 
             var formData = new FormData($("#updateProfile")[0]);
             formData.append('risks', JSON.stringify(risks));

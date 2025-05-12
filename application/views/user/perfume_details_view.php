@@ -38,14 +38,14 @@
             <?php endif; ?>
             
             <!-- Safe Risks -->
-            <?php if (!empty($perfume['SafeRisks'])): ?>
+            <!-- <?php if (!empty($perfume['SafeRisks'])): ?>
                 <div class="safe-risks mb-2">
                     <h6>Other Identified Risks:</h6>
                     <?php foreach ($perfume['SafeRisks'] as $risk): ?>
                         <span class="badge bg-success text-white me-1 mb-1"><?= htmlspecialchars($risk) ?></span>
                     <?php endforeach; ?>
                 </div>
-            <?php endif; ?>
+            <?php endif; ?> -->
             
             <!-- Safety Rating -->
             <div class="safety-rating mt-3">

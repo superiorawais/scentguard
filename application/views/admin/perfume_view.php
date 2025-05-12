@@ -51,29 +51,29 @@
 
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Components <span class="required">*</span> :</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" name="ingredients[]" id="ingredients" multiple required>
+                                            <div class="col-sm-9" id="ingredients">
+                                                <!-- <select class="form-control" name="ingredients[]" id="ingredients" multiple required>
 
                                                 </select>
-                                                <p class="help-block">Hold Ctrl (Windows) / Cmd (Mac) to select multiple.</p>
+                                                <p class="help-block">Hold Ctrl (Windows) / Cmd (Mac) to select multiple.</p> -->
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Risks/Diseases :</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" name="risks[]" id="risks" multiple>
+                                            <div class="col-sm-9" id="risks">
+                                                <!-- <select class="form-control" name="risks[]" id="risks" multiple>
 
-                                                </select>
+                                                </select> -->
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Alternatives :</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" name="alternatives[]" id="alternatives" multiple>
+                                            <div class="col-sm-9"  id="alternatives">
+                                                <!-- <select class="form-control" name="alternatives[]" id="alternatives" multiple>
 
-                                                </select>
+                                                </select> -->
                                             </div>
                                         </div>
 
@@ -183,29 +183,29 @@
 
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Ingredients <span class="required">*</span> :</label>
-                    <div class="col-sm-9">
-                        <select class="form-control" name="ingredients[]" id="ingredients" multiple required>
+                    <div class="col-sm-9" id="ingredients">
+                        <!-- <select class="form-control" name="ingredients[]" id="ingredients" multiple required>
 
                         </select>
-                        <p class="help-block">Hold Ctrl (Windows) / Cmd (Mac) to select multiple.</p>
+                        <p class="help-block">Hold Ctrl (Windows) / Cmd (Mac) to select multiple.</p> -->
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Risks/Diseases :</label>
-                    <div class="col-sm-9">
-                        <select class="form-control" name="risks[]" id="risks" multiple>
+                    <div class="col-sm-9" id="risks">
+                        <!-- <select class="form-control" name="risks[]" id="risks" multiple>
 
-                        </select>
+                        </select> -->
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Alternatives :</label>
-                    <div class="col-sm-9">
-                        <select class="form-control" name="alternatives[]" id="alternatives" multiple>
+                    <div class="col-sm-9" id="alternatives">
+                        <!-- <select class="form-control" name="alternatives[]" id="alternatives" multiple>
 
-                        </select>
+                        </select> -->
                     </div>
                 </div>
 
@@ -294,10 +294,24 @@
     function add() {
         var formData = new FormData($('#add')[0]);
 
-        // Convert multiple select values to JSON strings
-        var ingredients = $('select[name="ingredients[]"]').val() || [];
-        var risks = $('select[name="risks[]"]').val() || [];
-        var alternatives = $('select[name="alternatives[]"]').val() || [];
+   
+
+        var ingredients = $('input[name="ingredients[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
+
+var risks = $('input[name="risks[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
+
+var alternatives = $('input[name="alternatives[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
+
+
 
         formData.append('ingredients', JSON.stringify(ingredients));
         formData.append('risks', JSON.stringify(risks));
@@ -343,12 +357,23 @@
     function editPerfume() {
         var formData = new FormData($('#edit')[0]);
 
-        // Convert multiple select values to JSON strings
 
 
-        var ingredients = $('#edit select[name="ingredients[]"]').val() || [];
-        var risks = $('#edit select[name="risks[]"]').val() || [];
-        var alternatives = $('#edit select[name="alternatives[]"]').val() || [];
+        
+        var ingredients = $('input[name="ingredients[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
+
+var risks = $('input[name="risks[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
+
+var alternatives = $('input[name="alternatives[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
 
 
 
@@ -419,33 +444,32 @@
                         $("#imagePreview").attr("src", "");
                     }
 
-                    // ✅ Ensure `ingredients`, `risks`, and `alternatives` are arrays of IDs (as strings for consistency)
-                    let ingredients = Array.isArray(response.data.ingredients) ?
-                        response.data.ingredients.map(item => String(item.id)) :
-                        [];
+//                     let selectedRisks = String(response.data.risks || "").split(',').map(r => r.trim());
 
-                    let risks = Array.isArray(response.data.risks) ?
-                        response.data.risks.map(item => String(item.id)) :
-                        [];
+// let selectedAlternatives = String(response.data['alternatives'] || "").split(',').map(r => r.trim());
+// let selectedIngredients = String(response.data['ingredients'] || "").split(',').map(r => r.trim());
 
-                    let alternatives = Array.isArray(response.data.alternatives) ?
-                        response.data.alternatives.map(item => String(item.id)) :
-                        [];
+// console.log("Selected risks:", response.data.risks);
+
+// populateCheckboxes("#edit #risks", response.risks, "risks", selectedRisks);
+// populateCheckboxes("#edit #alternatives", response.alternatives, "alternatives", selectedAlternatives);
+// populateCheckboxes("#edit #ingredients", response.ingredients, "ingredients", selectedIngredients);
+
+// loadDropdownDataForEdit("#edit", response.data);
+let selectedData = {
+    ingredients: (response.data.ingredients || []).map(x => String(x.id || x)).join(','),
+    risks: (response.data.risks || []).map(x => String(x.id || x)).join(','),
+    alternatives: (response.data.alternatives || []).map(x => String(x.id || x)).join(',')
+};
+
+loadDropdownDataForEdit("#edit", selectedData);
 
 
 
-                    // ✅ Select Matching Options
-                    $("#edit #ingredients option").each(function() {
-                        $(this).prop("selected", ingredients.includes($(this).val()));
-                    });
 
-                    $("#edit #risks option").each(function() {
-                        $(this).prop("selected", risks.includes($(this).val()));
-                    });
 
-                    $("#edit #alternatives option").each(function() {
-                        $(this).prop("selected", alternatives.includes($(this).val()));
-                    });
+
+
 
 
 
@@ -465,29 +489,89 @@
     }
 
 
-    function loadDropdownData(container) {
-        // console.log(container +  " #ingredients");
-        $.ajax({
-            url: "<?= base_url('admin/Perfume/getDropdownData'); ?>",
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                populateDropdown(container + " #ingredients", response.ingredients);
-                populateDropdown(container + " #risks", response.risks);
-             populateDropdown(container + " #alternatives", response.alternatives);
-            },
-            error: function() {
-                alert("Failed to fetch dropdown data.");
-            }
-        });
-    }
+    // function loadDropdownData(container) {
+    //     // console.log(container +  " #ingredients");
+    //     $.ajax({
+    //         url: "<?= base_url('admin/Perfume/getDropdownData'); ?>",
+    //         type: "GET",
+    //         dataType: "json",
+    //         success: function(response) {
+    //             populateCheckboxes(container + " #ingredients", response.ingredients,"ingredients");
+    //             populateCheckboxes(container + " #risks", response.risks,"risks");
+    //             populateCheckboxes(container + " #alternatives", response.alternatives,"alternatives");
+    //         },
+    //         error: function() {
+    //             alert("Failed to fetch dropdown data.");
+    //         }
+    //     });
+    // }
 
-    function populateDropdown(selector, data) {
-        $(selector).empty();
-        $.each(data, function(index, item) {
-            $(selector).append(new Option(item.name, item.id));
-        });
-    }
+
+
+    function loadDropdownData(container) {
+    $.ajax({
+        url: "<?= base_url('admin/Perfume/getDropdownData'); ?>",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            populateCheckboxes(container + " #ingredients", response.ingredients, "ingredients");
+            populateCheckboxes(container + " #risks", response.risks, "risks");
+            populateCheckboxes(container + " #alternatives", response.alternatives, "alternatives");
+        },
+        error: function() {
+            alert("Failed to fetch dropdown data.");
+        }
+    });
+}
+
+
+
+function loadDropdownDataForEdit(container, selectedData) {
+    $.ajax({
+        url: "<?= base_url('admin/Perfume/getDropdownData'); ?>",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            const selectedIngredients = String(selectedData.ingredients || "").split(',').map(r => r.trim());
+            const selectedRisks = String(selectedData.risks || "").split(',').map(r => r.trim());
+            const selectedAlternatives = String(selectedData.alternatives || "").split(',').map(r => r.trim());
+
+
+            console.log(selectedData.ingredients);
+            populateCheckboxes(container + " #ingredients", response.ingredients, "ingredients", selectedIngredients);
+            populateCheckboxes(container + " #risks", response.risks, "risks", selectedRisks);
+            populateCheckboxes(container + " #alternatives", response.alternatives, "alternatives", selectedAlternatives);
+        },
+        error: function() {
+            alert("Failed to fetch dropdown data.");
+        }
+    });
+}
+
+
+
+    // function populateDropdown(selector, data) {
+    //     $(selector).empty();
+    //     $.each(data, function(index, item) {
+    //         $(selector).append(new Option(item.name, item.id));
+    //     });
+    // }
+
+
+    function populateCheckboxes(selector, data, name, selectedValues = []) {
+    $(selector).empty();
+    $.each(data, function(index, item) {
+        const isChecked = selectedValues.includes(String(item.id)) ? "checked" : "";
+        const checkbox = `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="${name}[]" value="${item.id}" id="${name}_${item.id}" ${isChecked}>
+                <label class="form-check-label" for="${name}_${item.id}">${item.name}</label>
+            </div>
+        `;
+        $(selector).append(checkbox);
+    });
+}
+
 
 
 

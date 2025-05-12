@@ -71,9 +71,9 @@
 
               <div class="col-12">
                     <label class="col-sm-3 control-label">Risks/Diseases :</label>
-                    <div class="col-sm-12">
-                        <select class="form-control" name="risks[]" id="risks" multiple>
-                        </select>
+                    <div class="col-sm-12" id="risks">
+                        <!-- <select class="form-control" name="risks[]" id="risks" multiple>
+                        </select> -->
                     </div>
                 </div>
 
@@ -231,7 +231,13 @@
       // submit using ajax
       var url = "<?php echo base_url('user/User/signUp'); ?>";
 
-      var risks = $('select[name="risks[]"]').val() || [];
+      // var risks = $('select[name="risks[]"]').val() || [];
+
+      var risks = $('input[name="risks[]"]:checked').map(function () {
+    return $(this).val();
+}).get();
+
+
       var formData = new FormData($("#signup")[0]);
       formData.append('risks', JSON.stringify(risks));
 
@@ -287,7 +293,8 @@
             dataType: "json",
             success: function(response) {
                // populateDropdown(container + " #ingredients", response.ingredients);
-                populateDropdown(container + " #risks", response.risks);
+                //populateDropdown(container + " #risks", response.risks);
+                populateCheckboxes(container + " #risks", response.risks);
                 //populateDropdown(container + " #alternatives", response.alternatives);
             },
             error: function() {
@@ -296,12 +303,26 @@
         });
     }
 
-    function populateDropdown(selector, data) {
-        $(selector).empty();
-        $.each(data, function(index, item) {
-            $(selector).append(new Option(item.name, item.id));
-        });
-    }
+    // function populateDropdown(selector, data) {
+    //     $(selector).empty();
+    //     $.each(data, function(index, item) {
+    //         $(selector).append(new Option(item.name, item.id));
+    //     });
+    // }
+
+
+    function populateCheckboxes(selector, data) {
+    $(selector).empty();
+    $.each(data, function(index, item) {
+        const checkbox = `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="risks[]" value="${item.id}" id="risk_${item.id}">
+                <label class="form-check-label" for="risk_${item.id}">${item.name}</label>
+            </div>
+        `;
+        $(selector).append(checkbox);
+    });
+}
 
 
 
